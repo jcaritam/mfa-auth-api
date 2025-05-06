@@ -1,0 +1,24 @@
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../prisma/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  userId        String @id @default(uuid()) @map("user_id")
+  name          String
+  email         String @unique
+  password      String
+  mfaEnabled    Boolean? @default(true) @map("mfa_enabled")
+  mfaSecret     String? @map("mfa_secret")
+
+  createAt      DateTime @default(now())
+  updateAt      DateTime @updatedAt
+
+  @@map("user")
+}
